@@ -1,163 +1,126 @@
-import { Link } from 'react-router-dom'
-import { PHASES, VALUES } from '../data/site.js'
-import { IMAGES } from '../lib/images.js'
-
-const LEADERSHIP_SLOTS = [
-  { role: 'Founder & Managing Director', note: 'Profile to be announced.' },
-  { role: 'Chief Operating Officer', note: 'Profile to be announced.' },
-  { role: 'Head of Digital Ventures', note: 'Profile to be announced.' },
-]
+import SectionHead from '../components/SectionHead.jsx';
+import Badge from '../components/Badge.jsx';
+import { PILLARS, PHASES } from '../data/content.js';
 
 export default function About() {
   return (
     <>
-      <section className="page-hero">
-        <div className="wrap">
-          <span className="eyebrow on-dark">About NAAD Infinity</span>
-          <h1>The infrastructure company for music &amp; live entertainment.</h1>
+      <div className="wrap">
+        <div className="page-head">
+          <p className="eyebrow">About</p>
+          <h1 className="display">One company,<br />the whole lifecycle.</h1>
           <p className="lede">
-            NAAD Infinity exists to do what no single promoter, studio, retailer or
-            platform can do alone — own the full lifecycle, and make every part of
-            it work for the others.
+            NAAD Infinity exists because the music and live-entertainment
+            industry runs on fragments — the studio that records the song
+            never meets the stage that sells the ticket. As a{' '}
+            <strong>mother company</strong>, we are building the connective
+            tissue: a 360-degree ecosystem where professionals, creators
+            and consumers move through one continuous lifecycle.
           </p>
         </div>
-      </section>
+      </div>
 
-      {/* mission / vision */}
       <section className="section">
         <div className="wrap">
-          <div className="split">
+          <SectionHead
+            no="01"
+            eyebrow="Mission and vision"
+            title="Why We Exist"
+          />
+          <div className="two-col">
             <div>
-              <span className="eyebrow">Mission</span>
-              <h2>Unify. Power. Monetise.</h2>
-              <p>
-                NAAD Infinity will build a comprehensive, 360-degree ecosystem built to
-                unify, power and monetise the modern music and live-entertainment
-                lifecycle — seamlessly bridging the gap between industry
-                professionals, creators and consumers.
-              </p>
-              <p>
-                The venture establishes powerful infrastructure across digital media,
-                physical production, commerce, education, event production and live
-                experiences — eleven pillars, one accountable operator.
+              <p className="eyebrow">Mission</p>
+              <p className="lede">
+                To unify, power and monetise the modern music and
+                live-entertainment lifecycle in India — giving every
+                professional, creator and consumer a single ecosystem to
+                work, create and belong to.
               </p>
             </div>
             <div>
-              <img src={IMAGES['studio-console']} alt="Recording studio control room" />
+              <p className="eyebrow">Vision</p>
+              <p className="lede">
+                An Indian music industry where nothing valuable happens in
+                isolation: the rehearsal room, the rental warehouse, the
+                box office and the classroom all run on shared
+                infrastructure.
+              </p>
             </div>
           </div>
         </div>
       </section>
 
-      {/* the lifecycle narrative */}
-      <section className="section-tight" style={{ background: 'var(--paper-2)' }}>
+      <section className="section-tight">
         <div className="wrap">
-          <div className="sec-head">
-            <span className="eyebrow">The thesis</span>
-            <h2>Follow one song through the ecosystem.</h2>
-          </div>
-          <div className="value-grid">
-            <div className="value-card">
-              <h3>Create</h3>
-              <p>Tracked, mixed and mastered in NAAD studios; the artist developed and managed in-house.</p>
-            </div>
-            <div className="value-card">
-              <h3>Connect</h3>
-              <p>Released into a professional network on STRINGS; premiered and programmed on the NAAD OTT platform.</p>
-            </div>
-            <div className="value-card">
-              <h3>Equip</h3>
-              <p>Instruments bought on SOUNDKART; tour PA and staging drawn from the NAAD rental network.</p>
-            </div>
-            <div className="value-card">
-              <h3>Experience</h3>
-              <p>Performed at NAAD-produced festivals, ticketed on the NAAD platform, debated at the NAAD conference — and taught at the NAAD academy next season.</p>
-            </div>
+          <SectionHead
+            no="02"
+            eyebrow="The 360-degree lifecycle"
+            title="Eleven Pillars, One Loop"
+            lede="Each pillar is a business in its own right. Together they form a closed loop — a song tracked in our studio can be mastered, managed, ticketed, streamed, taught and celebrated without ever leaving the ecosystem."
+          />
+          <div className="pillar-grid">
+            {PILLARS.map((p, i) => (
+              <div className="pillar" key={p}>
+                <div className="p-no">{String(i + 1).padStart(2, '0')}</div>
+                <p>{p}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* phase-wise rollout */}
       <section className="section">
         <div className="wrap">
-          <div className="sec-head">
-            <span className="eyebrow">Roadmap</span>
-            <h2>A phased rollout, Y1 to Y3.</h2>
-            <p className="lede">
-              The ecosystem is sequenced deliberately: networking and live events
-              establish the community first; ticketing and rental scale the
-              commerce layer; studios, OTT and education deepen the moat.
-            </p>
-          </div>
+          <SectionHead
+            no="03"
+            eyebrow="Rollout"
+            title="Phase-wise: Y1 to Y3"
+            lede="The ecosystem is built in phases — operating depth first, platforms and commerce second, industry leadership third."
+          />
           <div className="timeline">
-            {PHASES.map((p) => (
-              <div className="tl-phase" key={p.phase}>
-                <div className="tl-when">{p.when}</div>
-                <h3>{p.phase}</h3>
-                <div className="tl-items">
-                  {p.items.map((it) => <span key={it}>{it}</span>)}
+            {PHASES.map((ph) => (
+              <div className="phase" key={ph.tag}>
+                <div className="phase-tag">{ph.tag}</div>
+                <div>
+                  <h3>{ph.title}</h3>
+                  <p>{ph.text}</p>
+                  <ul>
+                    {ph.items.map((it) => (
+                      <li key={it}>{it}</li>
+                    ))}
+                  </ul>
                 </div>
               </div>
             ))}
           </div>
+          <div className="note-box" style={{ marginTop: 32 }}>
+            Phase contents are indicative and will be confirmed as each
+            division becomes operational.
+          </div>
         </div>
       </section>
 
-      {/* values */}
-      <section className="section-tight" style={{ background: 'var(--ink)', color: '#fff' }}>
+      <section className="section-tight">
         <div className="wrap">
-          <div className="sec-head">
-            <span className="eyebrow on-dark">What we believe</span>
-            <h2 style={{ color: '#fff' }}>Operating principles.</h2>
-          </div>
-          <div className="value-grid">
-            {VALUES.map((v) => (
-              <div className="value-card" key={v.title} style={{ borderTopColor: 'var(--gold)' }}>
-                <h3 style={{ color: '#fff' }}>{v.title}</h3>
-                <p style={{ color: '#aeb5bd' }}>{v.text}</p>
+          <SectionHead
+            no="04"
+            eyebrow="Leadership"
+            title="Who Leads This"
+          />
+          <div className="grid-3">
+            {[1, 2, 3].map((i) => (
+              <div className="card" key={i}>
+                <Badge tone="muted">To be announced</Badge>
+                <h3>Leadership — TBA</h3>
+                <p>
+                  Appointments to the mother company&rsquo;s leadership will
+                  be announced in due course.
+                </p>
               </div>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* leadership — placeholders */}
-      <section className="section">
-        <div className="wrap">
-          <div className="sec-head">
-            <span className="eyebrow">Leadership</span>
-            <h2>The people behind the build.</h2>
-            <p className="lede">
-              Company details and the full organisational hierarchy are being
-              finalised and will be published here.
-            </p>
-          </div>
-          <div className="card-grid">
-            {LEADERSHIP_SLOTS.map((l) => (
-              <div className="leader-card" key={l.role}>
-                <div className="avatar-ph">N</div>
-                <h3>To be announced</h3>
-                <div className="lrole">{l.role}</div>
-                <p className="tbc" style={{ marginTop: 14 }}>{l.note}</p>
-              </div>
-            ))}
-          </div>
-          <p className="note-sample">
-            Leadership profiles are placeholders. The founder will provide company
-            details and hierarchy for this section.
-          </p>
-        </div>
-      </section>
-
-      <section className="cta-band">
-        <div className="wrap">
-          <h2>Talk to the corporate office.</h2>
-          <p>Partnerships, press and investment enquiries are welcome.</p>
-          <div className="btn-row">
-            <Link to="/contact" className="btn btn-gold">Contact us</Link>
           </div>
         </div>
       </section>
     </>
-  )
+  );
 }

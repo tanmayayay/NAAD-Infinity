@@ -1,41 +1,76 @@
-import { useState } from 'react'
-import { Link, NavLink, useLocation } from 'react-router-dom'
-import { VENTURES } from '../data/site.js'
+import { useState } from 'react';
+import { Link, NavLink } from 'react-router-dom';
+import { NAV, VENTURES } from '../data/content.js';
 
 export default function Header() {
-  const [open, setOpen] = useState(false)
-  const { pathname } = useLocation()
-  const close = () => setOpen(false)
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="site-header">
-      <div className="header-inner">
-        <Link to="/" className="wordmark" onClick={close}>
-          NAAD<em>&nbsp;INFINITY</em>
+    <header className="topbar">
+      <div className="topbar-inner">
+        <Link to="/" className="wordmark" onClick={() => setMobileOpen(false)}>
+          NAAD <span className="w-accent">INFINITY</span>
         </Link>
-        <button className="nav-toggle" aria-label="Menu" onClick={() => setOpen((v) => !v)}>
-          {open ? '✕' : '☰'}
+
+        <button
+          className="burger"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label="Toggle navigation"
+        >
+          {mobileOpen ? 'Close' : 'Menu'}
         </button>
-        <nav className={`main-nav${open ? ' open' : ''}`}>
-          <NavLink to="/" end onClick={close} className={pathname === '/' ? 'active' : ''}>Home</NavLink>
-          <NavLink to="/about" onClick={close} className={pathname === '/about' ? 'active' : ''}>About</NavLink>
-          <NavLink to="/businesses" onClick={close} className={pathname === '/businesses' ? 'active' : ''}>Businesses</NavLink>
-          <div className="nav-drop">
-            <button type="button">Our Ventures ▾</button>
-            <div className="nav-drop-menu">
-              {VENTURES.map((v) => (
-                <Link key={v.id} to="/ventures" onClick={close}>
-                  <span className="nd-name">{v.name}</span>
-                  <span className="nd-sub">{v.tagline} · {v.status === 'live' ? 'Live' : 'In development'}</span>
-                </Link>
-              ))}
-            </div>
-          </div>
-          <NavLink to="/newsroom" onClick={close} className={pathname === '/newsroom' ? 'active' : ''}>Newsroom</NavLink>
-          <NavLink to="/careers" onClick={close} className={pathname === '/careers' ? 'active' : ''}>Careers</NavLink>
-          <NavLink to="/contact" onClick={close} className={pathname === '/contact' ? 'active' : ''}>Contact</NavLink>
+
+        <nav className={'nav' + (mobileOpen ? ' mobile-open' : '')}>
+          {NAV.map((item) =>
+            item.drop ? (
+              <div className="nav-item" key={item.to}>
+                <NavLink
+                  to={item.to}
+                  className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </NavLink>
+                <div className="drop">
+                  {VENTURES.map((v) =>
+                    v.url ? (
+                      <a
+                        key={v.name}
+                        href={v.url}
+                        target="_blank"
+                        rel="noreferrer"
+                      >
+                        {v.name}
+                        <span className="ext">Live &#8599;</span>
+                      </a>
+                    ) : (
+                      <Link
+                        key={v.name}
+                        to="/ventures"
+                        onClick={() => setMobileOpen(false)}
+                      >
+                        {v.name}
+                        <span className="ext">In development</span>
+                      </Link>
+                    ),
+                  )}
+                </div>
+              </div>
+            ) : (
+              <div className="nav-item" key={item.to}>
+                <NavLink
+                  to={item.to}
+                  end={item.to === '/'}
+                  className={({ isActive }) => 'nav-link' + (isActive ? ' active' : '')}
+                  onClick={() => setMobileOpen(false)}
+                >
+                  {item.label}
+                </NavLink>
+              </div>
+            ),
+          )}
         </nav>
       </div>
     </header>
-  )
+  );
 }

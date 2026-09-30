@@ -1,79 +1,73 @@
-import { Link } from 'react-router-dom'
-import { ROLES, VALUES } from '../data/site.js'
-import { IMAGES } from '../lib/images.js'
+import { Link } from 'react-router-dom';
+import SectionHead from '../components/SectionHead.jsx';
+import Badge from '../components/Badge.jsx';
+import { ROLES } from '../data/content.js';
 
 export default function Careers() {
   return (
     <>
-      <section className="page-hero">
-        <div className="wrap">
-          <span className="eyebrow on-dark">Careers</span>
-          <h1>Build the infrastructure the industry runs on.</h1>
+      <div className="wrap">
+        <div className="page-head">
+          <p className="eyebrow">Careers</p>
+          <h1 className="display">Work on the Ecosystem</h1>
           <p className="lede">
-            NAAD Infinity is assembling operators, engineers, artists and educators
-            across seven divisions and three ventures. Early joiners shape the
-            company, not just their role.
+            NAAD Infinity is built by people who have stood in control
+            rooms, on festival fields and in classrooms. We hire slowly
+            and deliberately — operators first, titles second.
           </p>
         </div>
-      </section>
+      </div>
 
-      {/* culture */}
       <section className="section">
         <div className="wrap">
-          <div className="split">
-            <div>
-              <img src={IMAGES['tradeshow-floor']} alt="NAAD Infinity industry exhibition" loading="lazy" />
-            </div>
-            <div>
-              <span className="eyebrow">Culture</span>
-              <h2>A company of builders.</h2>
-              <p>
-                We hire people who have carried a show, shipped a product, mixed a
-                record or taught a room — and want to do it at ecosystem scale.
-                Rigour over theatre, ownership over hierarchy.
-              </p>
-              <ul className="offer-list">
-                {VALUES.map((v) => (
-                  <li key={v.title}><strong>{v.title}.</strong> {v.text}</li>
-                ))}
-              </ul>
-            </div>
+          <SectionHead
+            no="01"
+            eyebrow="Culture"
+            title="How We Work"
+          />
+          <div className="two-col">
+            <p>
+              The mother company runs seven operating divisions and backs
+              three independent ventures. That means a career here is never
+              single-track: a production hire works festival season, a
+              platform engineer ships ticketing, a curator programmes the
+              conference stage.
+            </p>
+            <p>
+              We value field experience over pedigree, clear writing over
+              loud meetings, and owners over attendees. If you have built
+              something real in music, live events or the technology
+              behind them, we want to hear from you.
+            </p>
           </div>
         </div>
       </section>
 
-      {/* open roles */}
-      <section className="section-tight" style={{ background: 'var(--paper-2)' }}>
+      <section className="section-tight">
         <div className="wrap">
-          <div className="sec-head">
-            <span className="eyebrow">Open roles</span>
-            <h2>Where we are hiring.</h2>
-            <p className="lede">
-              Indicative roles across the divisions. Full job descriptions will be
-              published as each hiring wave opens.
-            </p>
-          </div>
+          <SectionHead
+            no="02"
+            eyebrow="Open roles"
+            title="Where We Will Hire"
+          />
           <div>
             {ROLES.map((r) => (
               <div className="role-row" key={r.title}>
                 <div>
-                  <div className="rdept">{r.dept}</div>
                   <h3>{r.title}</h3>
-                  <p>{r.note}</p>
+                  <p>{r.text}</p>
                 </div>
-                <span className="badge badge-soon" style={{ whiteSpace: 'nowrap' }}>Opening soon</span>
+                <Badge tone="muted">Opening soon</Badge>
               </div>
             ))}
           </div>
-          <p className="note-sample">
-            Roles are placeholders. To express interest ahead of formal openings,
-            write to the corporate office via the contact page with the subject line "Careers".
-          </p>
-          <div className="btn-row">
-            <Link to="/contact" className="btn btn-gold">Express interest</Link>
+          <div className="note-box" style={{ marginTop: 36 }}>
+            Formal role descriptions and applications will open here.
+            Speculative introductions are welcome via the{' '}
+            <Link to="/contact">contact page</Link>.
           </div>
         </div>
       </section>
     </>
-  )
+  );
 }

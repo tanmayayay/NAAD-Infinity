@@ -1,107 +1,96 @@
-import { useState } from 'react'
-import { CONTACT } from '../data/site.js'
+import { useState } from 'react';
+import SectionHead from '../components/SectionHead.jsx';
+import Badge from '../components/Badge.jsx';
 
-const SUBJECTS = ['Partnership', 'Press', 'Careers', 'Investment', 'General enquiry']
+const DETAILS = [
+  { k: 'Office', v: 'To be confirmed' },
+  { k: 'Email', v: 'To be confirmed' },
+  { k: 'WhatsApp', v: 'To be confirmed' },
+  { k: 'CIN', v: 'To be confirmed' },
+];
 
 export default function Contact() {
-  const [form, setForm] = useState({ name: '', org: '', email: '', subject: 'Partnership', message: '' })
-  const [sent, setSent] = useState(false)
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' });
+  const [sent, setSent] = useState(false);
 
-  const set = (k) => (e) => setForm((f) => ({ ...f, [k]: e.target.value }))
+  const onChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
 
-  const handleSubmit = (e) => {
-    e.preventDefault()
-    const subject = encodeURIComponent(`[NAAD Infinity] ${form.subject} — ${form.name}`)
+  const onSubmit = (e) => {
+    e.preventDefault();
+    const subject = encodeURIComponent(`Enquiry — ${form.subject || 'NAAD Infinity'}`);
     const body = encodeURIComponent(
-      `Name: ${form.name}\nOrganisation: ${form.org}\nEmail: ${form.email}\n\n${form.message}`
-    )
-    window.location.href = `mailto:${CONTACT.email}?subject=${subject}&body=${body}`
-    setSent(true)
-  }
+      `Name: ${form.name}\nEmail: ${form.email}\n\n${form.message}`,
+    );
+    // Mailto fallback: no corporate address is published yet, so this opens
+    // the visitor's mail client with the enquiry pre-filled, ready to address.
+    window.location.href = `mailto:?subject=${subject}&body=${body}`;
+    setSent(true);
+  };
 
   return (
     <>
-      <section className="page-hero">
-        <div className="wrap">
-          <span className="eyebrow on-dark">Contact</span>
-          <h1>Start a conversation.</h1>
+      <div className="wrap">
+        <div className="page-head">
+          <p className="eyebrow">Contact</p>
+          <h1 className="display">Get in Touch</h1>
           <p className="lede">
-            Partnerships, press, careers and investment enquiries — the corporate
-            office responds to every serious conversation.
+            Partnerships, investment and press enquiries — write to us and
+            the right part of the mother company will respond.
           </p>
         </div>
-      </section>
+      </div>
 
       <section className="section">
         <div className="wrap">
+          <SectionHead
+            no="01"
+            eyebrow="Enquiry"
+            title="Write to Us"
+          />
           <div className="contact-grid">
-            <div>
-              {sent ? (
-                <div className="info-block">
-                  <h4>Thank you</h4>
-                  <p>
-                    Your email client should have opened with your enquiry addressed
-                    to the corporate office. If it did not, please write to us
-                    directly at the address listed.
-                  </p>
-                  <button className="btn btn-outline" type="button" onClick={() => setSent(false)}>
-                    Send another enquiry
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit}>
-                  <div className="form-field">
-                    <label htmlFor="c-name">Full name</label>
-                    <input id="c-name" required value={form.name} onChange={set('name')} placeholder="Your name" />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="c-org">Organisation</label>
-                    <input id="c-org" value={form.org} onChange={set('org')} placeholder="Company / publication / institution" />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="c-email">Email</label>
-                    <input id="c-email" type="email" required value={form.email} onChange={set('email')} placeholder="you@example.com" />
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="c-subject">Subject</label>
-                    <select id="c-subject" value={form.subject} onChange={set('subject')}>
-                      {SUBJECTS.map((s) => <option key={s}>{s}</option>)}
-                    </select>
-                  </div>
-                  <div className="form-field">
-                    <label htmlFor="c-msg">Message</label>
-                    <textarea id="c-msg" required value={form.message} onChange={set('message')} placeholder="How can we help?" />
-                  </div>
-                  <button className="btn btn-gold" type="submit">Send enquiry</button>
-                  <p className="tbc" style={{ marginTop: 16 }}>
-                    This form opens your email client addressed to the corporate inbox.
-                  </p>
-                </form>
+            <form onSubmit={onSubmit}>
+              <div className="field">
+                <label htmlFor="c-name">Name</label>
+                <input id="c-name" name="name" value={form.name} onChange={onChange} required />
+              </div>
+              <div className="field">
+                <label htmlFor="c-email">Email</label>
+                <input id="c-email" name="email" type="email" value={form.email} onChange={onChange} required />
+              </div>
+              <div className="field">
+                <label htmlFor="c-subject">Subject</label>
+                <input id="c-subject" name="subject" value={form.subject} onChange={onChange} placeholder="Partnership, investment, press…" />
+              </div>
+              <div className="field">
+                <label htmlFor="c-message">Message</label>
+                <textarea id="c-message" name="message" value={form.message} onChange={onChange} required />
+              </div>
+              <button type="submit" className="btn">Send enquiry</button>
+              {sent && (
+                <p className="small muted" style={{ marginTop: 16 }}>
+                  Your mail client should have opened with the enquiry
+                  pre-filled — just address and send it.
+                </p>
               )}
-            </div>
+            </form>
             <div>
-              <div className="info-block">
-                <h4>Corporate office</h4>
-                <p>{CONTACT.office}</p>
-                <p className="tbc">Address to be confirmed.</p>
-              </div>
-              <div className="info-block">
-                <h4>Email</h4>
-                <p>{CONTACT.email}</p>
-                <p className="tbc">Placeholder inbox — to be confirmed.</p>
-              </div>
-              <div className="info-block">
-                <h4>WhatsApp</h4>
-                <p className="tbc">Business channel — to be announced.</p>
-              </div>
-              <div className="info-block">
-                <h4>Company particulars</h4>
-                <p className="tbc">CIN, GSTIN and registered details — to be confirmed.</p>
+              {DETAILS.map((d) => (
+                <div className="detail-row" key={d.k}>
+                  <div className="k">{d.k}</div>
+                  <div className="v">
+                    {d.v} <Badge tone="muted">TBC</Badge>
+                  </div>
+                </div>
+              ))}
+              <div className="note-box" style={{ marginTop: 28 }}>
+                Our corporate email address is to be confirmed. The form
+                opens your own mail client with the enquiry pre-filled, so
+                nothing is sent anywhere until you choose to send it.
               </div>
             </div>
           </div>
         </div>
       </section>
     </>
-  )
+  );
 }

@@ -1,65 +1,73 @@
-import { Link } from 'react-router-dom'
-import { VENTURES } from '../data/site.js'
+import SectionHead from '../components/SectionHead.jsx';
+import Badge from '../components/Badge.jsx';
+import { VENTURES } from '../data/content.js';
 
 export default function Ventures() {
   return (
     <>
-      <section className="page-hero">
-        <div className="wrap">
-          <span className="eyebrow on-dark">Our ventures</span>
-          <h1>Separate companies. One ecosystem.</h1>
+      <div className="wrap">
+        <div className="page-head">
+          <p className="eyebrow">Ventures</p>
+          <h1 className="display">Independent Ventures</h1>
           <p className="lede">
-            Three digital ventures operate under NAAD Infinity — each with its own
-            product, market and momentum, each plugged into the mother company's
-            infrastructure.
+            Three <strong>independent ventures</strong> operate under NAAD
+            Infinity — separate companies with their own products and
+            markets, plugged into the mother company&rsquo;s infrastructure.
           </p>
         </div>
-      </section>
+      </div>
 
       <section className="section">
         <div className="wrap">
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 36 }}>
-            {VENTURES.map((v) => (
-              <article key={v.id} className="news-card" style={{ padding: 48 }}>
-                <div className="nmeta">
-                  <span className={`badge ${v.status === 'live' ? 'badge-live' : 'badge-soon'}`}>
-                    {v.status === 'live' ? 'Live' : 'In development'}
-                  </span>
-                  <span className="ndate">{v.nic}</span>
+          <SectionHead
+            no="01"
+            eyebrow="The portfolio"
+            title="Three Companies, One Foundation"
+          />
+          <div style={{ display: 'grid', gap: 28 }}>
+            {VENTURES.map((v, i) => (
+              <article className="card venture-card" key={v.name}>
+                <div className="badge-row">
+                  <Badge tone="ink">{String(i + 1).padStart(2, '0')}</Badge>
+                  <Badge tone={v.status === 'Live' ? 'solid' : 'muted'}>
+                    {v.status}
+                  </Badge>
+                  <Badge tone="muted">{v.nic}</Badge>
                 </div>
-                <div className="vtag" style={{ fontSize: 13, letterSpacing: '0.24em', color: 'var(--gold-deep)', fontWeight: 600, marginBottom: 10 }}>
-                  {v.name}
-                </div>
-                <h2 style={{ fontSize: 'clamp(26px, 3vw, 36px)' }}>{v.tagline}</h2>
-                <p style={{ maxWidth: '70ch' }}>{v.description}</p>
-                <div style={{ marginTop: 10 }}>
-                  {v.url ? (
-                    <a href={v.url} target="_blank" rel="noreferrer" className="btn btn-gold">
-                      Visit {v.name} ↗
-                    </a>
-                  ) : (
-                    <span className="tbc">Launch timeline to be announced — track progress in the newsroom.</span>
-                  )}
+                <h3 className="section-title" style={{ marginTop: 14 }}>{v.name}</h3>
+                <p className="lede" style={{ fontSize: 17 }}>{v.fullName}.</p>
+                <p>{v.description}</p>
+                <ul className="offer-list">
+                  {v.points.map((p) => (
+                    <li key={p}>{p}</li>
+                  ))}
+                </ul>
+                <div className="card-foot">
+                  <div className="visit-row">
+                    {v.url ? (
+                      <a
+                        href={v.url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="btn btn-brass"
+                      >
+                        Visit live site &#8599;
+                      </a>
+                    ) : (
+                      <Badge tone="muted">In development — no public URL yet</Badge>
+                    )}
+                  </div>
                 </div>
               </article>
             ))}
           </div>
-          <p className="note-sample">
-            The ticketing platform is in development; its name, launch date and
-            product details will be announced here.
-          </p>
-        </div>
-      </section>
-
-      <section className="cta-band">
-        <div className="wrap">
-          <h2>Invest in, partner with, or build for the ventures.</h2>
-          <p>Venture-level conversations are routed through the corporate office.</p>
-          <div className="btn-row">
-            <Link to="/contact" className="btn btn-gold">Contact us</Link>
+          <div className="note-box" style={{ marginTop: 36 }}>
+            Each venture is independently operated with its own product and
+            market. The mother company provides shared infrastructure —
+            production, logistics, industry access and institutional backing.
           </div>
         </div>
       </section>
     </>
-  )
+  );
 }

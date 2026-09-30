@@ -1,19 +1,21 @@
-import { useEffect } from 'react'
-import { HashRouter, Routes, Route, useLocation } from 'react-router-dom'
-import Header from './components/Header.jsx'
-import Footer from './components/Footer.jsx'
-import Home from './pages/Home.jsx'
-import About from './pages/About.jsx'
-import Businesses from './pages/Businesses.jsx'
-import Ventures from './pages/Ventures.jsx'
-import Newsroom from './pages/Newsroom.jsx'
-import Careers from './pages/Careers.jsx'
-import Contact from './pages/Contact.jsx'
+import { useEffect } from 'react';
+import { HashRouter, Routes, Route, useLocation } from 'react-router-dom';
+import Header from './components/Header.jsx';
+import Footer from './components/Footer.jsx';
+import Home from './pages/Home.jsx';
+import About from './pages/About.jsx';
+import Businesses from './pages/Businesses.jsx';
+import Ventures from './pages/Ventures.jsx';
+import Newsroom from './pages/Newsroom.jsx';
+import Careers from './pages/Careers.jsx';
+import Contact from './pages/Contact.jsx';
 
 function ScrollToTop() {
-  const { pathname, search } = useLocation()
-  useEffect(() => { window.scrollTo(0, 0) }, [pathname, search])
-  return null
+  const { pathname } = useLocation();
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname]);
+  return null;
 }
 
 export default function App() {
@@ -35,5 +37,5 @@ export default function App() {
       </main>
       <Footer />
     </HashRouter>
-  )
+  );
 }
